@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -10,7 +11,23 @@ import MenuItem from '@mui/material/MenuItem';
 
 const inter = Inter({ subsets: ['latin'] })
 
+interface Location {
+  id: number;
+  name: string;
+  status: string;
+}
+
+
 export default function Home() {
+  const [locations, setLocations] = useState<Location[]>([]); 
+
+  useEffect(() => {
+    fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations')
+      .then(response => response.json())
+      .then(data => setLocations(data.response.locations))
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <>
       <Head>
@@ -20,26 +37,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.center}>
-          <h1 className='titleStyle'>Select location</h1>
-          <FormControl sx={{ m: 1, minWidth: 200 }}>
-            <InputLabel id="demo-simple-select-label">Location</InputLabel>
-            <Select
-              labelId="select-location-label"
-              id="location-select"
-              // value={location}
-              label="Location"
-              // onChange={handleChange}
-            >
-              <MenuItem>Dynamovej 10</MenuItem>
-              <MenuItem>Dynamovej 22</MenuItem>
-              <MenuItem>Aalborg hovedvej 19</MenuItem>
-              <MenuItem>Køgevej 198</MenuItem>
-            </Select>
-          </FormControl>
-
-        </div>
-      </main>
+      <div className={styles.center}>
+        <h1 className='titleStyle'>Select location</h1>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Location</InputLabel>
+          <Select
+            labelId="select-location-label"
+            id="location-select"
+            // value={location}
+            label="Location"
+            // onChange={handleChange}
+          >
+            {locations.map((location: Location) => (
+              <MenuItem key={location.id} value={location.name}>
+                {location.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+    </main>
     </>
   )
 }
