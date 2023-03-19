@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -19,7 +20,11 @@ interface Location {
 
 
 export default function Home() {
+  const router = useRouter();
+
   const [locations, setLocations] = useState<Location[]>([]); 
+  const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
+
 
   useEffect(() => {
     fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations')
@@ -39,20 +44,25 @@ export default function Home() {
       <main className={styles.main}>
       <div className={styles.center}>
         <h1 className='titleStyle'>Select location</h1>
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Location</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 200, '&.MuiOutlinedInput-notchedOutline': {color: '#666'} }}>
+          <InputLabel className='inputLabel' sx={{'&.Mui-focused': {color: '#666'}}}>Location</InputLabel>
           <Select
-            labelId="select-location-label"
-            id="location-select"
-            // value={location}
-            label="Location"
-            // onChange={handleChange}
-          >
-            {locations.map((location: Location) => (
-              <MenuItem key={location.id} value={location.name}>
-                {location.name}
-              </MenuItem>
-            ))}
+           labelId="select-location-label"
+           id="location-select"
+           label="Location"
+           value={selectedLocationId || ''}
+           onChange={(event) => {
+             const locationId = Number(event.target.value);
+             setSelectedLocationId(locationId);
+             router.push(`/products/`);
+           }}
+           sx={{'&.MuiOutlinedInput-notchedOutline': {color: '#666'}}}
+         >
+           {locations.map((location: Location) => (
+             <MenuItem key={location.id} value={location.id}>
+               {location.name}
+             </MenuItem>
+           ))}
           </Select>
         </FormControl>
       </div>
