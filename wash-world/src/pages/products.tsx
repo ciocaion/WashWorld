@@ -38,7 +38,6 @@ export default function Products({ lpn }: Props) {
         <div className={styles.center}>
           <h1 className='titleStyle'>Select product</h1>
           <FormControl component="fieldset">
-            <FormLabel className='formTitle'>Select a product:</FormLabel>
             <RadioGroup sx={{ color:'#666','&.Mui-checked': {color: 'white'},}}>
               {products.map((product: Product) => (
                 <FormControlLabel key={product.id} value={product.program} control={<Radio sx={{ '&.Mui-checked': {color: '#06c167'},}} />} label={`${product.name} - ${product.price}KR`}  />
