@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export default function Products({ lpn }: Props) {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -46,6 +48,10 @@ export default function Products({ lpn }: Props) {
           </FormControl>
         </div>
       </main>
+      <div className='navigation'>
+       <button className='nextPage'
+      onClick={() => router.push('/start')}>Next</button>
+      </div>
     </>
   )
 }

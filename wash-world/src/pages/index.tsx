@@ -54,7 +54,6 @@ export default function Home() {
            onChange={(event) => {
              const locationId = Number(event.target.value);
              setSelectedLocationId(locationId);
-             router.push(`/products/`);
            }}
            sx={{'&.MuiOutlinedInput-notchedOutline': {color: '#666'}}}
          >
@@ -67,6 +66,11 @@ export default function Home() {
         </FormControl>
       </div>
     </main>
+    <div className='navigation'>
+    <button className='nextPage'
+    onClick={() => router.push('/products')}
+    >Next</button>
+    </div>
     </>
   )
 }

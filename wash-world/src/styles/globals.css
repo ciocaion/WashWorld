@@ -1,6 +1,26 @@
 .titleStyle{
   color: #06c167;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #06c167 !important;
+}
+.navigation{
+  display: flex;
+  align-items: flex-end;
+  align-content: space-around;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-right: 60px;
+}
+button.nextPage{
+  background-color: #06c167;
+  color: white;
+  border: 0;
+  padding: 10px 40px;
+  display: inline-block;
+  text-align: right;
+  font-weight: 800;
+  cursor: pointer;
 }
