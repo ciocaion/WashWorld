@@ -8,6 +8,18 @@ import Grid from '@mui/material/Unstable_Grid2';
 export default function Start() {
   const selectedProduct = useSelector(selectSelectedProduct);
   
+  fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/1/start/1', {
+    method: 'POST'
+  })
+    .then(response => response.json())
+    .then(data => {
+      const estimatedDuration = data.response.estimated_duration;
+      console.log(`The estimated duration is ${estimatedDuration}.`);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
   return (
     <Grid container spacing={2} columns={16}>      
       <Grid xs={8}>
