@@ -24,3 +24,13 @@ button.nextPage{
   font-weight: 800;
   cursor: pointer;
 }
+
+.paperComponent{
+  padding: 10rem;
+  align-items: center;
+  gap: 3rem;
+}
+
+.paperExpand{
+  padding: 1rem 2rem;
+}
