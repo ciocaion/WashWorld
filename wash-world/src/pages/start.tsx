@@ -5,10 +5,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Countdown from 'react-countdown';
 import Grid from '@mui/material/Grid';
+import router from 'next/router';
 
 export default function Start() {
   const selectedProduct = useSelector(selectSelectedProduct);
-  
+
   fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/1/start/1', {
     method: 'POST'
   })
@@ -37,9 +38,9 @@ export default function Start() {
         )}
       </Grid>
       <Grid xs={4}>
-          <Paper className='paperExpand'>
-          <Countdown date={Date.now() + 10000} />
-          </Paper>
+        <Paper className='paperExpand'>
+          <Countdown date={Date.now() + 10000} onComplete={() => router.push('/')} />
+        </Paper>
       </Grid>
     </Grid>
   );
