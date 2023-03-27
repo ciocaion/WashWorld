@@ -32,6 +32,9 @@ button.nextPage{
   text-align: right;
   font-weight: 800;
   cursor: pointer;
+  border-bottom: 2px;
+  border-style: solid;
+  border-color: #008042;
 }
 .overlay {
   position: absolute;
@@ -75,5 +78,14 @@ button.nextPage{
 
 .paperExpand{
   padding: 1rem 2rem;
+}
+.paperExpand h2{
+  color: #06c167!important;
+}
+.countdown{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 24px;
 }
 

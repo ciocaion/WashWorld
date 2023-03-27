@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -10,22 +9,18 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 
-const inter = Inter({ subsets: ['latin'] })
-
 interface Location {
   id: number;
   name: string;
   status: string;
 }
 
-
 export default function Home() {
   const router = useRouter();
 
   const [locations, setLocations] = useState<Location[]>([]); 
   const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
-  const [isLocationSelected, setIsLocationSelected] = useState(false);
-
+  let isLocationSelected = Boolean(selectedLocationId);
 
   useEffect(() => {
     fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations')
@@ -45,59 +40,54 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-      <div className={styles.center}>
-        <h1 className='titleStyle'>Select location</h1>
-        <FormControl sx={{ m: 1, minWidth: 200, '&.MuiOutlinedInput-notchedOutline': {color: '#666'} }}>
-          <InputLabel className='inputLabel' sx={{'&.Mui-focused': {color: '#666'}}}>Location</InputLabel>
-          <Select
-           labelId="select-location-label"
-           id="location-select"
-           label="Location"
-           value={selectedLocationId || ''}
-           onChange={(event) => {
-             const locationId = Number(event.target.value);
-             setSelectedLocationId(locationId);
-             setIsLocationSelected(true);
-           }}
-           sx={{'&.MuiOutlinedInput-notchedOutline': {color: '#666'}}}
-         >
-           {locations.map((location: Location) => (
-            <MenuItem key={location.id} value={location.id} disabled={location.id === 3}>
-              {location.name}
-              
-            </MenuItem>
-           ))}
-          </Select>
-        </FormControl>
+        <div className={styles.center}>
+          <h1 className='titleStyle'>Select location</h1>
+          <FormControl sx={{ m: 1, minWidth: 200, '&.MuiOutlinedInput-notchedOutline': {color: '#666'} }}>
+            <InputLabel className='inputLabel' sx={{'&.Mui-focused': {color: '#666'}}}>Location</InputLabel>
+            <Select
+              labelId="select-location-label"
+              id="location-select"
+              label="Location"
+              value={selectedLocationId || ''}
+              onChange={(event) => setSelectedLocationId(Number(event.target.value))}
+              sx={{'&.MuiOutlinedInput-notchedOutline': {color: '#666'}}}
+            >
+              {locations.map((location: Location) => (
+                <MenuItem key={location.id} value={location.id} disabled={location.id === 3}>
+                  {location.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      </main>
+      <div className="alert-next-grid">
+        {maintenanceLocations.map((location: Location) => (
+          <Alert key={location.id} severity="error" >
+            {`Location ${location.name} is under maintenance!`}
+          </Alert>
+        ))}
+        <div className='navigation'>
+          <Link href="/products">
+            <button
+              className='nextPage'
+              onClick={() => {
+                if (isLocationSelected) {
+                  router.push('/products');
+                }
+              }}
+              disabled={!isLocationSelected}
+              title={!isLocationSelected ? 'Please select a location' : ''}
+              >
+                Next
+                {!isLocationSelected && (
+              <div className="overlay">
+              </div>
+            )}
+            </button>
+          </Link> 
+        </div>
       </div>
-    </main>
-    <div className="alert-next-grid">
-    {maintenanceLocations.map((location: Location) => (
-      <Alert key={location.id} severity="error" >
-        {`Location ${location.name} is under maintenance!`}
-      </Alert>
-    ))}
-    <div className='navigation'>
-    <Link href="/products" prefetch={true}>
-      <button
-        className='nextPage'
-        onClick={() => {
-          if (isLocationSelected) {
-            router.push('/products');
-          }
-        }}
-        disabled={!isLocationSelected}
-        title={!isLocationSelected ? 'Please select a location' : ''}
-      >
-        Next
-        {!isLocationSelected && (
-          <div className="overlay">
-          </div>
-        )}
-      </button>
-    </Link> 
-    </div>
-  </div>
     </>
   )
 }

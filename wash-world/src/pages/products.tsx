@@ -1,15 +1,17 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { setSelectedProduct } from './features/products/productsSlice';
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-
-const inter = Inter({ subsets: ['latin'] })
+import styles from '@/styles/Home.module.css';
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from '@mui/material';
 
 interface Product {
   id: number;
@@ -19,22 +21,24 @@ interface Product {
   program: string;
 }
 
-interface Props {
-  lpn: string;
-}
 
-export default function Products({ lpn }: Props) {
+export default function Products(product) {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const dispatch = useDispatch();
-
+  const [isProductSelected, setIsProductSelected] = useState(false);
 
   useEffect(() => {
-    fetch(`https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/products/BV99123 `)
-      .then(response => response.json())
-      .then(data => setProducts(data.response.products))
-      .catch(error => console.log(error));
+    fetch(`https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/products/BV99123`)
+      .then((response) => response.json())
+      .then((data) => setProducts(data.response.products))
+      .catch((error) => console.log(error));
   }, []);
+
+  const handleProductSelect = (product: Product) => {
+    dispatch(setSelectedProduct(product));
+    setIsProductSelected(true);
+  };
 
   return (
     <>
@@ -43,32 +47,38 @@ export default function Products({ lpn }: Props) {
       </Head>
       <main className={styles.main}>
         <div className={styles.center}>
-          <h1 className='titleStyle'>Select product</h1>
+          <h1 className="titleStyle">Select product</h1>
           <FormControl component="fieldset">
-          <RadioGroup sx={{ color:'#666','&.Mui-checked': {color: 'white'},}}>
-             {products.map((product: Product) => (
-              <FormControlLabel
-                 key={product.id}
-                 value={product.program}
-                 control={<Radio sx={{ '&.Mui-checked': {color: '#06c167'},}} />}
-                 label={`${product.name} - ${product.price}KR`}
-                 onClick={() => dispatch(setSelectedProduct(product))}
-               />
-  ))}
-</RadioGroup>
+            <RadioGroup sx={{ color: '#666', '&.Mui-checked': { color: 'white' } }}>
+              {products.map((product: Product) => (
+                <FormControlLabel
+                  key={product.id}
+                  value={product.program}
+                  control={<Radio sx={{ '&.Mui-checked': { color: '#06c167' } }} />}
+                  label={`${product.name} - ${product.price}KR`}
+                  onClick={() => handleProductSelect(product)}
+                />
+              ))}
+            </RadioGroup>
           </FormControl>
         </div>
       </main>
-      <div className='alert-next-grid'>
-      <div className='navigation'>
-      <Link href="/start" prefetch={true}>
-       <button className='nextPage'
-      onClick={() => router.push('/start')}>
-        Next
-        </button>
-      </Link>
-      </div>
+      <div className="alert-next-grid">
+        <div className="navigation">
+          <button
+            className="nextPage"
+            onClick={() => isProductSelected && router.push('/start')}
+            disabled={!isProductSelected}
+            title={!isProductSelected ? 'No product selected' : ''}
+          >
+            {!isProductSelected && (
+          <div className="overlay">
+          </div>
+        )}
+            Next
+          </button>
+        </div>
       </div>
     </>
-  )
+  );
 }

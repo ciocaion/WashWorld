@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 import { selectSelectedProduct } from './features/products/productsSlice';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -7,6 +8,9 @@ import Paper from '@mui/material/Paper';
 import Countdown from 'react-countdown';
 import Grid from '@mui/material/Grid';
 import router from 'next/router';
+import Lottie from 'react-lottie';
+import animationData from '../assets/wash-car.json';
+
 
 export default function Start() {
   const selectedProduct = useSelector(selectSelectedProduct);
@@ -28,31 +32,49 @@ export default function Start() {
       });
   }, []);
 
+  const animationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+  
+
   return (
-    <Grid container spacing={1} columns={16} className="paperComponent">      
-      <Grid xs={8}>
-        {selectedProduct ? (
-          <Paper className='paperExpand'>
-            <h2>{selectedProduct.name}</h2>
-            <p>{selectedProduct.description}</p>
-            <p>{selectedProduct.price}KR</p>
-          </Paper>
-        ) : (
-          <Paper className='paperExpand'>
-            <p>No product selected</p>
-          </Paper>
-        )}
-      </Grid>
-      <Grid xs={4}>
-        <Paper className='paperExpand'>
-          {estimatedDurationMs && (
-            <Countdown
-              date={Date.now() + estimatedDurationMs}
-              onComplete={() => router.push('/')}
-            />
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={1} columns={16} className="paperComponent">
+        <Grid xs={8}>
+          {selectedProduct ? (
+            <Paper className='paperExpand'>
+              <h2>{selectedProduct.name}</h2>
+              <p>{selectedProduct.description}</p>
+              <p>{selectedProduct.price}KR</p>
+            </Paper>
+          ) : (
+            <Paper className='paperExpand'>
+              <p>No product selected</p>
+            </Paper>
           )}
-        </Paper>
+        </Grid>
+        <Grid xs={4}>
+          <Paper className='paperExpand'>
+      <Lottie options={animationOptions} height={50} width={200} />
+            {estimatedDurationMs && (
+              <Countdown className='countdown'
+                date={Date.now() + estimatedDurationMs}
+                onComplete={() => router.push('/')}
+              />
+            )}
+            <Grid container justifyContent="center">
+            <Link href="/">
+              <button className='nextPage'  onClick={() => router.push('/')}>End</button>
+            </Link>
+            </Grid>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 }
