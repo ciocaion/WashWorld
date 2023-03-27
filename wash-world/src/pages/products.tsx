@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { setSelectedProduct } from './features/products/productsSlice';
 import Image from 'next/image'
@@ -58,9 +59,15 @@ export default function Products({ lpn }: Props) {
           </FormControl>
         </div>
       </main>
+      <div className='alert-next-grid'>
       <div className='navigation'>
+      <Link href="/start" prefetch={true}>
        <button className='nextPage'
-      onClick={() => router.push('/start')}>Next</button>
+      onClick={() => router.push('/start')}>
+        Next
+        </button>
+      </Link>
+      </div>
       </div>
     </>
   )
