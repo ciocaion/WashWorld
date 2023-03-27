@@ -10,7 +10,7 @@
 .alert-next-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 500px;
   margin-right: 84px;
   margin-left: 24px;
 }
@@ -39,6 +39,7 @@ button.nextPage{
   left: 0;
   bottom: 0;
   right: 0;
+  border: 0;
   background-color: rgba(255, 255, 255, 0.5);
   z-index: 1;
   pointer-events: none;
