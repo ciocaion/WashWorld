@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert';
 
 interface Location {
   id: number;
+  lpn: string
   name: string;
   status: string;
 }
@@ -22,12 +23,24 @@ export default function Home() {
   const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
   let isLocationSelected = Boolean(selectedLocationId);
 
+  
+  useEffect(() => {
+    if (selectedLocationId) {
+      fetch(`https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/cam/${selectedLocationId}`)
+        .then(response => response.json())
+        .then(data => console.log(`Welcome ${data.response.lpn}`))
+        .catch(error => console.log(error));
+    }
+  }, [selectedLocationId]);
+  
+
   useEffect(() => {
     fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations')
       .then(response => response.json())
       .then(data => setLocations(data.response.locations))
       .catch(error => console.log(error));
   }, []);
+
 
   const maintenanceLocations = locations.filter(location => location.status === "maintenance");
 
