@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { selectSelectedProduct } from './features/products/productsSlice';
 import { styled } from '@mui/material/styles';
+import styles from '@/styles/Home.module.css';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Countdown from 'react-countdown';
@@ -43,8 +44,10 @@ export default function Start() {
   
 
   return (
+    
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1} columns={16} className="paperComponent">
+        
         <Grid xs={8}>
           {selectedProduct ? (
             <Paper className='paperExpand'>

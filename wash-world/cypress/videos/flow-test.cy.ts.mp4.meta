@@ -1,0 +1,16 @@
+;FFMETADATA1
+[CHAPTER]
+TIMEBASE=1/1000
+START=-533
+END=3345
+title=Home title Title
+[CHAPTER]
+TIMEBASE=1/1000
+START=4230
+END=7237
+title=Products title Title
+[CHAPTER]
+TIMEBASE=1/1000
+START=9037
+END=10248
+title=Location with maintenance should have disabled option with data-value 3

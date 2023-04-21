@@ -19,30 +19,27 @@ interface Location {
 export default function Home() {
   const router = useRouter();
 
-  const [locations, setLocations] = useState<Location[]>([]); 
-  const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
-  let isLocationSelected = Boolean(selectedLocationId);
-
+  const [locations, setLocations] = useState<Location[]>([]); // Create a state variable called "locations" which is initially an empty array. Also, create a setter function called "setLocations" that will update the "locations" state variable
+  const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null); // Create a state variable called "selectedLocationId" which is initially null. Also, create a setter function called "setSelectedLocationId" that will update the "selectedLocationId" state variable
+  let isLocationSelected = Boolean(selectedLocationId); // Create a boolean variable "isLocationSelected" which is true if "selectedLocationId" is not null and false otherwise
   
   useEffect(() => {
-    if (selectedLocationId) {
-      fetch(`https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/cam/${selectedLocationId}`)
-        .then(response => response.json())
-        .then(data => console.log(`Welcome ${data.response.lpn}`))
-        .catch(error => console.log(error));
+    if (selectedLocationId) { // If "selectedLocationId" is not null
+      fetch(`https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/cam/${selectedLocationId}`) // Send a GET request to the specified URL
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => console.log(`Welcome ${data.response.lpn}`)) // Log the response data
+        .catch(error => console.log(error)); // If there's an error, log it to the console
     }
-  }, [selectedLocationId]);
-  
+  }, [selectedLocationId]); // This effect runs whenever "selectedLocationId" changes
 
   useEffect(() => {
-    fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations')
-      .then(response => response.json())
-      .then(data => setLocations(data.response.locations))
-      .catch(error => console.log(error));
-  }, []);
+    fetch('https://b46f027d-3a5f-4de6-9075-5e861759e531.mock.pstmn.io/locations') // Send a GET request to the specified URL
+      .then(response => response.json()) // Parse the response as JSON
+      .then(data => setLocations(data.response.locations)) // Update the "locations" state variable with the response data
+      .catch(error => console.log(error)); // If there's an error, log it to the console
+  }, []); // This effect runs only once, when the component mounts
 
-
-  const maintenanceLocations = locations.filter(location => location.status === "maintenance");
+  const maintenanceLocations = locations.filter(location => location.status === "maintenance"); // Create a new array called "maintenanceLocations" that contains only the locations whose status is "maintenance"
 
   return (
     <>
