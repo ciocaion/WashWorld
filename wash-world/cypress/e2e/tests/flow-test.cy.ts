@@ -44,15 +44,15 @@ describe("Location with maintenance", () => {
   describe("Buttons validation", () => {
     it("Should validate buttonns", () => {
       cy.visit("http://localhost:3000/");
-      cy.get('.nextPage');
+      cy.get('.nextPage').should('exist','have.length', 1);
     });
     it("Should validate buttonns", () => {
       cy.visit("http://localhost:3000/products");
-      cy.get('.nextPage');
+      cy.get('.nextPage').should('exist','have.length', 1);
     });
     it("Should validate buttonns", () => {
       cy.visit("http://localhost:3000/start");
-      cy.get('.nextPage').should('contain.text', 'End')
+      cy.get('.nextPage').should('exist', 'contain.text', 'End', 'have.length', 1)
     });
   });
 
